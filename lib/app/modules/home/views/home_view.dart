@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/constants/app_color.dart';
+import '../../../core/constants/app_colors.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/ask_and_actions.dart';
 import '../widgets/header.dart';

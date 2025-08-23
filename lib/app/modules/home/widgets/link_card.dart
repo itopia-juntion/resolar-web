@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../core/constants/app_color.dart';
+import '../../../core/constants/app_colors.dart';
 
 class LinkCard extends StatefulWidget {
   final String title;
