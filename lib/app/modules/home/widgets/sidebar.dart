@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resolar_web/gen/assets.gen.dart';
 
 import '../../../core/constants/app_color.dart';
 import '../models/topic_item.dart';
@@ -18,8 +19,8 @@ class Sidebar extends StatelessWidget {
           Column(
             children: [
               Row(
-                children: const [
-                  Icon(Icons.bubble_chart, color: AppColors.primary, size: 28),
+                children: [
+                  Assets.images.appLogo.image(scale: 28),
                   SizedBox(width: 8),
                   Text(
                     'Resolar',
