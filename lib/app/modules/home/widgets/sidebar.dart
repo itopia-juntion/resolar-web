@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:resolar_web/gen/assets.gen.dart';
 
-import '../../../../main.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../widgets/app_banner.dart';
 import '../models/topic_item.dart';
 
 class Sidebar extends StatelessWidget {
@@ -19,16 +18,7 @@ class Sidebar extends StatelessWidget {
           // Top
           Column(
             children: [
-              Row(
-                children: [
-                  Assets.images.appLogo.image(scale: 28),
-                  SizedBox(width: 8),
-                  Text(
-                    appName,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
-                  ),
-                ],
-              ),
+              AppBanner(),
               const SizedBox(height: 32),
               Align(
                 alignment: Alignment.centerLeft,

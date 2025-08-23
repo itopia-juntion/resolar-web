@@ -42,24 +42,7 @@ class LoginView extends GetView<LoginController> {
                     child: Row(
                       children: [
                         // Brand
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Assets.images.appLogo.image(
-                              //color: Colors.white,
-                              scale: 24,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              appName,
-                              style: TextStyle(
-                                color: AppColors.textPrimary,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ],
-                        ),
+                        AppBanner(),
                         const Spacer(),
                       ],
                     ),
