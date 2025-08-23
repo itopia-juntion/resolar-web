@@ -93,6 +93,7 @@ class HomeController extends GetxController {
   Future<void> createNewTopic() async {
     final topicName = newTopicController.text.trim();
     if (topicName.isEmpty) return;
+    newTopicController.clear();
 
     RequestResult reqRet = await Get.find<ApiClient>().createSubject(topicName);
     if (reqRet is RequestFail) {
@@ -100,10 +101,8 @@ class HomeController extends GetxController {
       return;
     }
 
-    RequestSuccess<Subject> success = reqRet as RequestSuccess<Subject>;
-    _subjectList.add(success.data);
-    newTopicController.clear();
-    selectSubject(success.data);
+    await _fetchSubjects();
+    if (_subjectList.isNotEmpty) selectSubject(_subjectList.first);
   }
 
   Future<void> searchPages() async {
