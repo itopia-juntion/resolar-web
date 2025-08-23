@@ -147,6 +147,15 @@ class ApiClient extends GetConnect {
     );
   }
 
+  Future<RequestResult<EmptyBody>> deleteSubject(int subjectId) async {
+    return await _send(
+      () async => await delete('/subjects/$subjectId'),
+      map: (rp) {
+        return EmptyBody();
+      },
+    );
+  }
+
   Future<RequestResult<List<WebPage>>> getPages(int subjectId) async {
     return await _send(
       () async =>

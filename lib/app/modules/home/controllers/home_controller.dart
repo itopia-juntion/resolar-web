@@ -117,6 +117,27 @@ class HomeController extends GetxController {
     if (_subjectList.isNotEmpty) selectSubject(_subjectList.first);
   }
 
+  Future<void> deleteSubject(Subject subject) async {
+    RequestResult reqRet = await Get.find<ApiClient>().deleteSubject(
+      subject.id,
+    );
+    if (reqRet is RequestFail) {
+      AppUtils.showSnackBar('Failed to delete subject');
+      return;
+    }
+
+    if (_selectedSubject.value == subject) {
+      _selectedSubject.value = null;
+      _pages.clear();
+    }
+
+    await _fetchSubjects();
+
+    if (_selectedSubject.value == null && _subjectList.isNotEmpty) {
+      selectSubject(_subjectList.first);
+    }
+  }
+
   Future<void> searchPages() async {
     final keyword = searchController.text.trim();
     final subject = _selectedSubject.value;

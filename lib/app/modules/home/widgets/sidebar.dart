@@ -59,6 +59,7 @@ class Sidebar extends StatelessWidget {
                             onTap: () {
                               controller.selectSubject(sub);
                             },
+                            onDelete: () => controller.deleteSubject(sub),
                             active: controller.selectedSubject == sub,
                           ),
                         );

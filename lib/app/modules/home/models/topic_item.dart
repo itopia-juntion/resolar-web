@@ -6,12 +6,14 @@ class TopicItem extends StatelessWidget {
   final String label;
   final bool active;
   final void Function() onTap;
+  final void Function() onDelete;
 
   const TopicItem({
     super.key,
     required this.label,
     this.active = false,
     required this.onTap,
+    required this.onDelete,
   });
 
   @override
@@ -31,6 +33,7 @@ class TopicItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 label,
@@ -40,6 +43,10 @@ class TopicItem extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
+              IconButton(
+                icon: Icon(Icons.delete, color: fg, size: 16),
+                onPressed: onDelete,
+              )
             ],
           ),
         ),
