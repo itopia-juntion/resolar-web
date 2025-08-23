@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resolar_web/app/widgets/app_input.dart';
 
 import '../../../core/constants/app_colors.dart';
 
@@ -30,31 +31,7 @@ class Header extends StatelessWidget {
                   color: AppColors.textSecondary,
                 ),
               ),
-              TextField(
-                controller: controller,
-                style: const TextStyle(fontSize: 14),
-                decoration: InputDecoration(
-                  hintText: 'Search links...',
-                  hintStyle: const TextStyle(color: Color(0xFF6B7280)),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 14,
-                  ),
-                  filled: true,
-                  fillColor: AppColors.sidebarBg,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: AppColors.accent),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: AppColors.primary,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
+              AppInput(controller: controller),
             ],
           ),
         ),
