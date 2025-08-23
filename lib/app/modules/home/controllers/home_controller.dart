@@ -93,6 +93,15 @@ class HomeController extends GetxController {
   Future<void> createNewTopic() async {
     final topicName = newTopicController.text.trim();
     if (topicName.isEmpty) return;
+
+    if (_subjectList
+        .where((s) => s.name.toLowerCase() == topicName.toLowerCase())
+        .toList()
+        .isNotEmpty) {
+      AppUtils.showSnackBar('Topic already exists');
+      return;
+    }
+
     newTopicController.clear();
 
     RequestResult reqRet = await Get.find<ApiClient>().createSubject(topicName);
