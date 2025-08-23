@@ -4,8 +4,9 @@ import '../core/constants/app_colors.dart';
 
 class AppInput extends StatelessWidget {
   final TextEditingController controller;
+  final String hint;
 
-  const AppInput({super.key, required this.controller});
+  const AppInput({super.key, required this.controller, required this.hint});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class AppInput extends StatelessWidget {
       controller: controller,
       style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(
-        hintText: 'Search links...',
+        hintText: hint,
         hintStyle: const TextStyle(color: Color(0xFF6B7280)),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 40,

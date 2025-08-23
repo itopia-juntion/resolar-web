@@ -35,7 +35,7 @@ class Header extends StatelessWidget {
                   color: AppColors.textSecondary,
                 ),
               ),
-              AppInput(controller: controller),
+              AppInput(controller: controller, hint: 'Search links...'),
             ],
           ),
         ),
