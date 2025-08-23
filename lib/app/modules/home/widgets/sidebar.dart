@@ -53,16 +53,13 @@ class Sidebar extends StatelessWidget {
                       itemCount: subjects.length,
                       itemBuilder: (_, i) {
                         Subject sub = subjects[i];
-                        return GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            controller.selectSubject(sub);
-                          },
-                          child: Obx(
-                            () => TopicItem(
-                              label: sub.name,
-                              active: controller.selectedSubject == sub,
-                            ),
+                        return Obx(
+                          () => TopicItem(
+                            label: sub.name,
+                            onTap: () {
+                              controller.selectSubject(sub);
+                            },
+                            active: controller.selectedSubject == sub,
                           ),
                         );
                       },
