@@ -31,6 +31,7 @@ void main() async {
 
   runApp(
     GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Resolar",
       theme: theme,
       initialRoute: AppPages.INITIAL,
