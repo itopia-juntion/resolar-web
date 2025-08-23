@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  final searchController = TextEditingController();
+  final askController = TextEditingController();
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -16,8 +17,8 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
+    searchController.dispose();
+    askController.dispose();
     super.onClose();
   }
-
-  void increment() => count.value++;
 }
