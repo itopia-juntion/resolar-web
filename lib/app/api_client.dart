@@ -138,11 +138,11 @@ class ApiClient extends GetConnect {
     );
   }
 
-  Future<RequestResult<Subject>> createSubject(String name) async {
+  Future<RequestResult<EmptyBody>> createSubject(String name) async {
     return await _send(
       () async => await post('/subjects', {'name': name}),
       map: (rp) {
-        return Subject.fromJson(json.decode(rp.bodyString!));
+        return EmptyBody();
       },
     );
   }
@@ -165,10 +165,14 @@ class ApiClient extends GetConnect {
   }
 
   Future<RequestResult<List<WebPage>>> searchPages(
-      String keyword, int subjectId) async {
+    String keyword,
+    int subjectId,
+  ) async {
     return await _send(
-      () async => await get('/pages/search',
-          query: {'keyword': keyword, 'subjectId': subjectId.toString()}),
+      () async => await get(
+        '/pages/search',
+        query: {'keyword': keyword, 'subjectId': subjectId.toString()},
+      ),
       map: (rp) {
         List items = json.decode(rp.bodyString!);
         List<WebPage> pages = [];
