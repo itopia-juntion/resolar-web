@@ -22,7 +22,7 @@ class Sidebar extends StatelessWidget {
                   Icon(Icons.bubble_chart, color: AppColors.primary, size: 28),
                   SizedBox(width: 8),
                   Text(
-                    'Linker',
+                    'Resolar',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                   ),
                 ],

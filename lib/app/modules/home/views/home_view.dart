@@ -42,7 +42,7 @@ class HomeView extends GetView<HomeController> {
               backgroundColor: AppColors.background,
               elevation: 0,
               title: const Text(
-                'Linker',
+                'Resolar',
                 style: TextStyle(fontWeight: FontWeight.w700),
               ),
               actions: [
