@@ -18,6 +18,14 @@ class LoginController extends GetxController {
   bool get isSignUp => _isSignUp.value;
 
   @override
+  void onInit() {
+    super.onInit();
+    final authService = Get.find<AuthService>();
+    username.text = authService.username ?? '';
+    password.text = authService.password ?? '';
+  }
+
+  @override
   void onReady() {
     super.onReady();
   }
