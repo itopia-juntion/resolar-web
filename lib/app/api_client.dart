@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:resolar_web/app/models/subject.dart';
+import 'package:resolar_web/app/models/web_page.dart';
 import 'package:resolar_web/app/services/auth_service.dart';
 
 class ApiClient extends GetConnect {
@@ -142,6 +143,23 @@ class ApiClient extends GetConnect {
       () async => await post('/subjects', {'name': name}),
       map: (rp) {
         return EmptyBody();
+      },
+    );
+  }
+
+  Future<RequestResult<List<WebPage>>> getPages(int subjectId) async {
+    return await _send(
+      () async =>
+          await get('/pages', query: {'subjectId': subjectId.toString()}),
+      map: (rp) {
+        List items = json.decode(rp.bodyString!);
+        List<WebPage> pages = [];
+
+        for (var item in items) {
+          pages.add(WebPage.fromJson(item));
+        }
+
+        return pages;
       },
     );
   }

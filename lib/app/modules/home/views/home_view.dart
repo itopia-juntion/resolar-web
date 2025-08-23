@@ -65,6 +65,8 @@ class HomeView extends GetView<HomeController> {
 class _MainArea extends StatelessWidget {
   const _MainArea();
 
+  HomeController get controller => Get.find<HomeController>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -81,7 +83,7 @@ class _MainArea extends StatelessWidget {
                   Header(),
                   const SizedBox(height: 8),
                   Expanded(
-                    child: SingleChildScrollView(child: const LinkList()),
+                    child: Obx(() => LinkList(pages: controller.pages)),
                   ),
                   const SizedBox(height: 24),
                   const Divider(color: AppColors.accent, height: 1),
