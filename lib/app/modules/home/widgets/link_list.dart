@@ -24,6 +24,7 @@ class LinkList extends StatelessWidget {
             description: page.summary,
             // No imageUrl field in WebPage model
             imageUrl: '',
+            url: page.url,
           ),
         );
       },
