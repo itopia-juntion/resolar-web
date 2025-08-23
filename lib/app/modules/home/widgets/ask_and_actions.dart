@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:resolar_web/app/modules/home/controllers/home_controller.dart';
 
 import '../../../core/constants/app_colors.dart';
 import 'action_button.dart';
 
 class AskAndActions extends StatelessWidget {
-  final TextEditingController controller = TextEditingController();
+  HomeController get controller => Get.find<HomeController>();
 
-  AskAndActions({super.key});
+  const AskAndActions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +21,10 @@ class AskAndActions extends StatelessWidget {
             alignment: Alignment.centerRight,
             children: [
               TextField(
-                controller: controller,
+                controller: controller.askController,
                 style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
-                  hintText: 'Ask AI about these links and summaries...',
+                  hintText: 'Ask AI what you want...',
                   hintStyle: const TextStyle(color: Color(0xFF6B7280)),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 14,
@@ -42,7 +44,9 @@ class AskAndActions extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onSubmitted: (_) {},
+                onSubmitted: (_) {
+                  controller.searchAiPages();
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 6),
@@ -52,7 +56,9 @@ class AskAndActions extends StatelessWidget {
                     foregroundColor: Colors.white,
                     shape: const CircleBorder(),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.searchAiPages();
+                  },
                   icon: const Icon(Icons.send_rounded, size: 18),
                   tooltip: 'Send',
                 ),

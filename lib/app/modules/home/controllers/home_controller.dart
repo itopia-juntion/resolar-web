@@ -24,6 +24,9 @@ class HomeController extends GetxController {
 
   final _searchQuery = ''.obs;
 
+  final RxBool _isLoading = RxBool(false);
+  bool get isLoading => _isLoading.value;
+
   @override
   void onInit() {
     super.onInit();
@@ -140,5 +143,40 @@ class HomeController extends GetxController {
     RequestSuccess<List<WebPage>> success =
         reqRet as RequestSuccess<List<WebPage>>;
     _pages.assignAll(success.data);
+  }
+
+  Future<void> searchAiPages() async {
+    try {
+      _isLoading.value = true;
+      final keyword = askController.text.trim();
+      final subject = _selectedSubject.value;
+
+      pages.clear();
+      askController.clear();
+
+      if (subject == null) {
+        return;
+      }
+
+      if (keyword.isEmpty) {
+        return;
+      }
+
+      RequestResult reqRet = await Get.find<ApiClient>().searchAi(
+        keyword,
+        subject.id,
+      );
+
+      if (reqRet is RequestFail) {
+        AppUtils.showSnackBar('Failed to search pages');
+        return;
+      }
+
+      RequestSuccess<WebPage> success = reqRet as RequestSuccess<WebPage>;
+      _pages.clear();
+      _pages.add(success.data);
+    } finally {
+      _isLoading.value = false;
+    }
   }
 }
