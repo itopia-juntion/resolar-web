@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../main.dart';
 import '../../../core/constants/app_colors.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/ask_and_actions.dart';
@@ -42,7 +43,7 @@ class HomeView extends GetView<HomeController> {
               backgroundColor: AppColors.background,
               elevation: 0,
               title: const Text(
-                'Resolar',
+                appName,
                 style: TextStyle(fontWeight: FontWeight.w700),
               ),
               actions: [

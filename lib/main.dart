@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app/core/constants/app_colors.dart';
 import 'app/routes/app_pages.dart';
+import 'app/services/auth_service.dart';
+
+const String appName = "Resolar";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

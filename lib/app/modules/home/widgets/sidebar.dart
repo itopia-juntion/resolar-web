@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resolar_web/gen/assets.gen.dart';
 
+import '../../../../main.dart';
 import '../../../core/constants/app_colors.dart';
 import '../models/topic_item.dart';
 
@@ -23,7 +24,7 @@ class Sidebar extends StatelessWidget {
                   Assets.images.appLogo.image(scale: 28),
                   SizedBox(width: 8),
                   Text(
-                    'Resolar',
+                    appName,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                   ),
                 ],
