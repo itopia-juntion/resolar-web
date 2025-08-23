@@ -22,6 +22,10 @@ class AuthService extends GetxService {
     _accessToken = storage.read(_tokenKey);
   }
 
+  bool isLoggedIn() {
+    return _accessToken != null;
+  }
+
   Future updateAccessToken(String token) async {
     _accessToken = token;
     await storage.write(_tokenKey, token);
