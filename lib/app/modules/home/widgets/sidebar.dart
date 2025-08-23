@@ -23,6 +23,7 @@ class Sidebar extends StatelessWidget {
           // Top
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppBanner(),
                 const SizedBox(height: 32),
