@@ -73,11 +73,6 @@ class AskAndActions extends StatelessWidget {
           label: 'Save as PDF',
           onTap: () {},
         ),
-        ActionButton(
-          icon: Icons.description_rounded,
-          label: 'Save to Docs',
-          onTap: () {},
-        ),
       ],
     );
   }
