@@ -18,6 +18,7 @@ abstract class WebPage with _$WebPage {
   const factory WebPage({
     required int id,
     required String url,
+    @Default('') String title,
     required String summary,
     required int importance,
     required int subjectId,

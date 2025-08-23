@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$WebPage {
 
- int get id; String get url; String get summary; int get importance; int get subjectId;
+ int get id; String get url; String get title; String get summary; int get importance; int get subjectId;
 /// Create a copy of WebPage
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $WebPageCopyWith<WebPage> get copyWith => _$WebPageCopyWithImpl<WebPage>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebPage&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.importance, importance) || other.importance == importance)&&(identical(other.subjectId, subjectId) || other.subjectId == subjectId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebPage&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.title, title) || other.title == title)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.importance, importance) || other.importance == importance)&&(identical(other.subjectId, subjectId) || other.subjectId == subjectId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,url,summary,importance,subjectId);
+int get hashCode => Object.hash(runtimeType,id,url,title,summary,importance,subjectId);
 
 @override
 String toString() {
-  return 'WebPage(id: $id, url: $url, summary: $summary, importance: $importance, subjectId: $subjectId)';
+  return 'WebPage(id: $id, url: $url, title: $title, summary: $summary, importance: $importance, subjectId: $subjectId)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $WebPageCopyWith<$Res>  {
   factory $WebPageCopyWith(WebPage value, $Res Function(WebPage) _then) = _$WebPageCopyWithImpl;
 @useResult
 $Res call({
- int id, String url, String summary, int importance, int subjectId
+ int id, String url, String title, String summary, int importance, int subjectId
 });
 
 
@@ -65,10 +65,11 @@ class _$WebPageCopyWithImpl<$Res>
 
 /// Create a copy of WebPage
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? url = null,Object? summary = null,Object? importance = null,Object? subjectId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? url = null,Object? title = null,Object? summary = null,Object? importance = null,Object? subjectId = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
 as String,importance: null == importance ? _self.importance : importance // ignore: cast_nullable_to_non_nullable
 as int,subjectId: null == subjectId ? _self.subjectId : subjectId // ignore: cast_nullable_to_non_nullable
@@ -157,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String url,  String summary,  int importance,  int subjectId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String url,  String title,  String summary,  int importance,  int subjectId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WebPage() when $default != null:
-return $default(_that.id,_that.url,_that.summary,_that.importance,_that.subjectId);case _:
+return $default(_that.id,_that.url,_that.title,_that.summary,_that.importance,_that.subjectId);case _:
   return orElse();
 
 }
@@ -178,10 +179,10 @@ return $default(_that.id,_that.url,_that.summary,_that.importance,_that.subjectI
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String url,  String summary,  int importance,  int subjectId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String url,  String title,  String summary,  int importance,  int subjectId)  $default,) {final _that = this;
 switch (_that) {
 case _WebPage():
-return $default(_that.id,_that.url,_that.summary,_that.importance,_that.subjectId);case _:
+return $default(_that.id,_that.url,_that.title,_that.summary,_that.importance,_that.subjectId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +199,10 @@ return $default(_that.id,_that.url,_that.summary,_that.importance,_that.subjectI
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String url,  String summary,  int importance,  int subjectId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String url,  String title,  String summary,  int importance,  int subjectId)?  $default,) {final _that = this;
 switch (_that) {
 case _WebPage() when $default != null:
-return $default(_that.id,_that.url,_that.summary,_that.importance,_that.subjectId);case _:
+return $default(_that.id,_that.url,_that.title,_that.summary,_that.importance,_that.subjectId);case _:
   return null;
 
 }
@@ -213,11 +214,12 @@ return $default(_that.id,_that.url,_that.summary,_that.importance,_that.subjectI
 @JsonSerializable()
 
 class _WebPage implements WebPage {
-  const _WebPage({required this.id, required this.url, required this.summary, required this.importance, required this.subjectId});
+  const _WebPage({required this.id, required this.url, this.title = '', required this.summary, required this.importance, required this.subjectId});
   factory _WebPage.fromJson(Map<String, dynamic> json) => _$WebPageFromJson(json);
 
 @override final  int id;
 @override final  String url;
+@override@JsonKey() final  String title;
 @override final  String summary;
 @override final  int importance;
 @override final  int subjectId;
@@ -235,16 +237,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebPage&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.importance, importance) || other.importance == importance)&&(identical(other.subjectId, subjectId) || other.subjectId == subjectId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebPage&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url)&&(identical(other.title, title) || other.title == title)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.importance, importance) || other.importance == importance)&&(identical(other.subjectId, subjectId) || other.subjectId == subjectId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,url,summary,importance,subjectId);
+int get hashCode => Object.hash(runtimeType,id,url,title,summary,importance,subjectId);
 
 @override
 String toString() {
-  return 'WebPage(id: $id, url: $url, summary: $summary, importance: $importance, subjectId: $subjectId)';
+  return 'WebPage(id: $id, url: $url, title: $title, summary: $summary, importance: $importance, subjectId: $subjectId)';
 }
 
 
@@ -255,7 +257,7 @@ abstract mixin class _$WebPageCopyWith<$Res> implements $WebPageCopyWith<$Res> {
   factory _$WebPageCopyWith(_WebPage value, $Res Function(_WebPage) _then) = __$WebPageCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String url, String summary, int importance, int subjectId
+ int id, String url, String title, String summary, int importance, int subjectId
 });
 
 
@@ -272,10 +274,11 @@ class __$WebPageCopyWithImpl<$Res>
 
 /// Create a copy of WebPage
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? url = null,Object? summary = null,Object? importance = null,Object? subjectId = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? url = null,Object? title = null,Object? summary = null,Object? importance = null,Object? subjectId = null,}) {
   return _then(_WebPage(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
 as String,importance: null == importance ? _self.importance : importance // ignore: cast_nullable_to_non_nullable
 as int,subjectId: null == subjectId ? _self.subjectId : subjectId // ignore: cast_nullable_to_non_nullable

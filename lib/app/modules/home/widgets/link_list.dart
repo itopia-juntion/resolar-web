@@ -20,9 +20,8 @@ class LinkList extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(bottom: 12.0),
           child: LinkCard(
-            title: page.url, // No title field, using url instead
+            title: page.title,
             description: page.summary,
-            // No imageUrl field in WebPage model
             imageUrl: '',
             url: page.url,
           ),
