@@ -23,33 +23,20 @@ class Header extends StatelessWidget {
         const Expanded(child: SizedBox()),
         SizedBox(
           width: 360,
-          child: Row(
+          child: Stack(
+            alignment: Alignment.centerLeft,
             children: [
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    const Positioned(
-                      left: 12,
-                      child: Icon(
-                        Icons.search,
-                        size: 20,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    AppInput(
-                      controller: controller.searchController,
-                      hint: 'Search links...',
-                      onSubmitted: (_) => controller.searchPages(),
-                    ),
-                  ],
+              const Positioned(
+                left: 12,
+                child: Icon(
+                  Icons.search,
+                  size: 20,
+                  color: AppColors.textSecondary,
                 ),
               ),
-              const SizedBox(width: 8),
-              IconButton(
-                onPressed: controller.searchPages,
-                icon: const Icon(Icons.search),
-                tooltip: 'Search',
+              AppInput(
+                controller: controller.searchController,
+                hint: 'Search links...',
               ),
             ],
           ),

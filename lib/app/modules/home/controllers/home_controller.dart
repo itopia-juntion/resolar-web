@@ -22,6 +22,8 @@ class HomeController extends GetxController {
   final RxBool _isTopicNameValid = RxBool(false);
   bool get isTopicNameValid => _isTopicNameValid.value;
 
+  final _searchQuery = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -29,6 +31,16 @@ class HomeController extends GetxController {
     newTopicController.addListener(() {
       _isTopicNameValid.value = newTopicController.text.isNotEmpty;
     });
+
+    searchController.addListener(() {
+      _searchQuery.value = searchController.text;
+    });
+
+    debounce(
+      _searchQuery,
+      (_) => searchPages(),
+      time: const Duration(milliseconds: 100),
+    );
   }
 
   @override
@@ -99,7 +111,7 @@ class HomeController extends GetxController {
     final subject = _selectedSubject.value;
 
     if (subject == null) {
-      AppUtils.showSnackBar('Please select a topic first.');
+      // This case should ideally not happen if a subject is always selected.
       return;
     }
 
@@ -108,8 +120,10 @@ class HomeController extends GetxController {
       return;
     }
 
-    RequestResult reqRet =
-        await Get.find<ApiClient>().searchPages(keyword, subject.id);
+    RequestResult reqRet = await Get.find<ApiClient>().searchPages(
+      keyword,
+      subject.id,
+    );
     if (reqRet is RequestFail) {
       AppUtils.showSnackBar('Failed to search pages');
       return;
