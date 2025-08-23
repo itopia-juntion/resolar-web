@@ -46,13 +46,7 @@ class HomeView extends GetView<HomeController> {
                 appName,
                 style: TextStyle(fontWeight: FontWeight.w700),
               ),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.add),
-                  tooltip: 'New Topic',
-                ),
-              ],
+              actions: [],
             ),
             body: const _MainArea(),
           );
@@ -82,9 +76,7 @@ class _MainArea extends StatelessWidget {
                 children: [
                   Header(),
                   const SizedBox(height: 8),
-                  Expanded(
-                    child: Obx(() => LinkList(pages: controller.pages)),
-                  ),
+                  Expanded(child: Obx(() => LinkList(pages: controller.pages))),
                   const SizedBox(height: 24),
                   const Divider(color: AppColors.accent, height: 1),
                   const SizedBox(height: 24),
