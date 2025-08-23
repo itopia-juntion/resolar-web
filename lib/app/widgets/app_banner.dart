@@ -14,8 +14,8 @@ class AppBanner extends StatelessWidget {
     return InkWell(
       //behavior: HitTestBehavior.translucent,
       onTap: () {
-        if (Get.currentRoute == AppPages.INITIAL) return;
-        Get.offAllNamed(AppPages.INITIAL);
+        if (Get.currentRoute == Routes.HOME) return;
+        Get.offAllNamed(Routes.HOME);
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,
