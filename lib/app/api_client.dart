@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:resolar_web/app/models/subject.dart';
 import 'package:resolar_web/app/services/auth_service.dart';
 
 class ApiClient extends GetConnect {
@@ -20,6 +22,7 @@ class ApiClient extends GetConnect {
 
     httpClient.addRequestModifier<void>((request) {
       final path = request.url.path;
+      request.headers['ngrok-skip-browser-warning'] = "${true}";
       final isAuthPath = path.contains('/auth/');
 
       var token = authService.accessToken;
@@ -30,24 +33,6 @@ class ApiClient extends GetConnect {
 
       return request;
     });
-
-    httpClient.addAuthenticator<void>((request) async {
-      final path = request.url.path;
-      if (path.contains('/auth/')) return request;
-
-      if (authService.username == null || authService.password == null) {
-        return request;
-      }
-      var token = authService.accessToken;
-
-      await loginAndRefreshToken(authService.username!, authService.password!);
-      if (token == null || token!.isEmpty) return request;
-
-      request.headers['Authorization'] = 'Bearer $token';
-      return request;
-    });
-
-    httpClient.maxAuthRetries = 1;
   }
 
   Map<String, String> _cleanQuery(Map<String, dynamic> raw) {
@@ -58,14 +43,10 @@ class ApiClient extends GetConnect {
     return m;
   }
 
-  RequestResult<T> _wrap<T>(Response rp, T Function(Response rp)? map) {
+  RequestResult<T> _wrap<T>(Response rp, T Function(Response rp) map) {
     if (rp.isOk || rp.statusCode == 201 || rp.statusCode == 204) {
       try {
-        if (T == EmptyBody) {
-          return RequestSuccess<T>(EmptyBody() as T);
-        }
-
-        return RequestSuccess<T>(map!(rp));
+        return RequestSuccess<T>(map(rp));
       } catch (e) {
         if (kDebugMode) rethrow;
         return RequestFail('서버의 응답을 처리하지 못했어요.');
@@ -76,7 +57,7 @@ class ApiClient extends GetConnect {
 
   Future<RequestResult<T>> _send<T>(
     Future<Response> Function() reqFn, {
-    T Function(Response rp)? map,
+    required T Function(Response rp) map,
   }) async {
     try {
       final rp = await reqFn();
@@ -135,6 +116,23 @@ class ApiClient extends GetConnect {
         String? token = json.decode(rp.bodyString!)['accessToken'];
         authService.updateAccessToken(token ?? '');
         return EmptyBody();
+      },
+    );
+  }
+
+  Future<RequestResult<List<Subject>>> getSubjects() async {
+    return await _send(
+      () async => await get('/subjects'),
+      map: (rp) {
+        log(rp.bodyString!);
+        List items = json.decode(rp.bodyString!);
+        List<Subject> subjects = [];
+
+        for (var item in items) {
+          subjects.add(Subject.fromJson(item));
+        }
+
+        return subjects;
       },
     );
   }

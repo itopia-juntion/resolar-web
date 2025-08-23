@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:resolar_web/app/models/subject.dart';
+import 'package:resolar_web/app/modules/home/controllers/home_controller.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../widgets/app_banner.dart';
 import '../models/topic_item.dart';
 
 class Sidebar extends StatelessWidget {
+  HomeController get controller => Get.find<HomeController>();
+
   const Sidebar({super.key});
 
   @override
@@ -16,29 +21,54 @@ class Sidebar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Top
-          Column(
-            children: [
-              AppBanner(),
-              const SizedBox(height: 32),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'TOPICS',
-                  style: TextStyle(
-                    color: AppColors.textSecondary.withOpacity(0.9),
-                    fontSize: 12,
-                    letterSpacing: 1.1,
-                    fontWeight: FontWeight.w700,
+          Expanded(
+            child: Column(
+              children: [
+                AppBanner(),
+                const SizedBox(height: 32),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'TOPICS',
+                    style: TextStyle(
+                      color: AppColors.textSecondary.withOpacity(0.9),
+                      fontSize: 12,
+                      letterSpacing: 1.1,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              const TopicItem(label: 'Science', active: true),
-              const TopicItem(label: 'Product Design'),
-              const TopicItem(label: 'UX Research'),
-              const TopicItem(label: 'Marketing Strategy'),
-              const TopicItem(label: 'AI Integration'),
-            ],
+                const SizedBox(height: 8),
+                Expanded(
+                  child: Obx(() {
+                    List<Subject> subjects = controller.subjectList;
+
+                    if (subjects.isEmpty) {
+                      return Text('No subject yet!');
+                    }
+
+                    return ListView.builder(
+                      itemCount: subjects.length,
+                      itemBuilder: (_, i) => Obx(() {
+                        Subject sub = subjects[i];
+                        return GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {
+                            controller.selectSubject(sub);
+                          },
+                          child: Obx(
+                            () => TopicItem(
+                              label: sub.name,
+                              active: controller.selectedSubject == sub,
+                            ),
+                          ),
+                        );
+                      }),
+                    );
+                  }),
+                ),
+              ],
+            ),
           ),
 
           // Bottom

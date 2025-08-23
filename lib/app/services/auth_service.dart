@@ -23,6 +23,7 @@ class AuthService extends GetxService {
   }
 
   Future updateAccessToken(String token) async {
+    _accessToken = token;
     await storage.write(_tokenKey, token);
   }
 
