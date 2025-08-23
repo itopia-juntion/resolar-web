@@ -60,6 +60,18 @@ class LoginMainSection extends StatelessWidget {
                 controller: controller.username,
                 hint: 'username',
                 autofillHints: const [AutofillHints.username],
+                validator: (v) {
+                  if (v == null || v.isEmpty) {
+                    return 'Please enter your ID.';
+                  }
+                  if (v.length < 3) {
+                    return 'ID must be at least 3 characters long.';
+                  }
+                  if (v.length > 20) {
+                    return 'ID must be no more than 20 characters long.';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
 
@@ -87,9 +99,15 @@ class LoginMainSection extends StatelessWidget {
                 hint: '••••••••',
                 obscure: true,
                 autofillHints: const [AutofillHints.password],
-                validator: (v) => (v == null || v.isEmpty)
-                    ? 'Please enter your password.'
-                    : null,
+                validator: (v) {
+                  if (v == null || v.isEmpty) {
+                    return 'Please enter your password.';
+                  }
+                  if (v.length < 8) {
+                    return 'Password must be at least 8 characters long.';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
 
