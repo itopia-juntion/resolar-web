@@ -5,13 +5,20 @@ import '../core/constants/app_colors.dart';
 class AppInput extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
+  final ValueChanged<String>? onSubmitted;
 
-  const AppInput({super.key, required this.controller, required this.hint});
+  const AppInput({
+    super.key,
+    required this.controller,
+    required this.hint,
+    this.onSubmitted,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      onSubmitted: onSubmitted,
       style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(
         hintText: hint,

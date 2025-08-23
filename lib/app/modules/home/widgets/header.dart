@@ -6,36 +6,51 @@ import 'package:resolar_web/app/widgets/app_input.dart';
 import '../../../core/constants/app_colors.dart';
 
 class Header extends StatelessWidget {
-  final TextEditingController controller = TextEditingController();
+  final HomeController controller = Get.find<HomeController>();
 
   Header({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 16,
       children: [
         Obx(
           () => Text(
-            Get.find<HomeController>().selectedSubject?.name ?? '',
-            style: TextStyle(fontSize: 34, fontWeight: FontWeight.w800),
+            controller.selectedSubject?.name ?? '',
+            style: const TextStyle(fontSize: 34, fontWeight: FontWeight.w800),
           ),
         ),
-        Expanded(child: SizedBox()),
+        const Expanded(child: SizedBox()),
         SizedBox(
           width: 360,
-          child: Stack(
-            alignment: Alignment.centerLeft,
+          child: Row(
             children: [
-              const Positioned(
-                left: 12,
-                child: Icon(
-                  Icons.search,
-                  size: 20,
-                  color: AppColors.textSecondary,
+              Expanded(
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    const Positioned(
+                      left: 12,
+                      child: Icon(
+                        Icons.search,
+                        size: 20,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    AppInput(
+                      controller: controller.searchController,
+                      hint: 'Search links...',
+                      onSubmitted: (_) => controller.searchPages(),
+                    ),
+                  ],
                 ),
               ),
-              AppInput(controller: controller, hint: 'Search links...'),
+              const SizedBox(width: 8),
+              IconButton(
+                onPressed: controller.searchPages,
+                icon: const Icon(Icons.search),
+                tooltip: 'Search',
+              ),
             ],
           ),
         ),

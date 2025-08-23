@@ -74,6 +74,7 @@ class HomeController extends GetxController {
 
   Future<void> selectSubject(Subject sub) async {
     _selectedSubject.value = sub;
+    searchController.clear();
     await _fetchPages(sub.id);
   }
 
@@ -91,5 +92,31 @@ class HomeController extends GetxController {
     _subjectList.add(success.data);
     newTopicController.clear();
     selectSubject(success.data);
+  }
+
+  Future<void> searchPages() async {
+    final keyword = searchController.text.trim();
+    final subject = _selectedSubject.value;
+
+    if (subject == null) {
+      AppUtils.showSnackBar('Please select a topic first.');
+      return;
+    }
+
+    if (keyword.isEmpty) {
+      await _fetchPages(subject.id);
+      return;
+    }
+
+    RequestResult reqRet =
+        await Get.find<ApiClient>().searchPages(keyword, subject.id);
+    if (reqRet is RequestFail) {
+      AppUtils.showSnackBar('Failed to search pages');
+      return;
+    }
+
+    RequestSuccess<List<WebPage>> success =
+        reqRet as RequestSuccess<List<WebPage>>;
+    _pages.assignAll(success.data);
   }
 }
