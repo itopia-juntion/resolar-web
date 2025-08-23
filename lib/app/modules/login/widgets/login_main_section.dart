@@ -58,6 +58,7 @@ class LoginMainSection extends StatelessWidget {
               const SizedBox(height: 8),
               LoginInput(
                 controller: controller.username,
+                focusNode: controller.usernameFocusNode,
                 hint: 'username',
                 autofillHints: const [AutofillHints.username],
                 validator: (v) {
@@ -71,6 +72,9 @@ class LoginMainSection extends StatelessWidget {
                     return 'ID must be no more than 20 characters long.';
                   }
                   return null;
+                },
+                onFieldSubmitted: (_) {
+                  controller.passwordFocusNode.requestFocus();
                 },
               ),
               const SizedBox(height: 16),
@@ -96,6 +100,7 @@ class LoginMainSection extends StatelessWidget {
               const SizedBox(height: 8),
               LoginInput(
                 controller: controller.password,
+                focusNode: controller.passwordFocusNode,
                 hint: '••••••••',
                 obscure: true,
                 autofillHints: const [AutofillHints.password],
@@ -107,6 +112,13 @@ class LoginMainSection extends StatelessWidget {
                     return 'Password must be at least 8 characters long.';
                   }
                   return null;
+                },
+                onFieldSubmitted: (_) {
+                  if (controller.isSignUp) {
+                    controller.emailFocusNode.requestFocus();
+                  } else {
+                    controller.onSubmit();
+                  }
                 },
               ),
               const SizedBox(height: 16),
@@ -123,7 +135,9 @@ class LoginMainSection extends StatelessWidget {
                     const SizedBox(height: 8),
                     LoginInput(
                       controller: controller.email,
+                      focusNode: controller.emailFocusNode,
                       hint: 'mymail@mail.com',
+                      onFieldSubmitted: (_) => controller.onSubmit(),
                     ),
                   ],
                 );
@@ -135,17 +149,15 @@ class LoginMainSection extends StatelessWidget {
                 child: SizedBox(
                   height: 48,
                   child: FilledButton(
-                    onPressed: controller.loggingIn
-                        ? null
-                        : controller.onSubmit,
+                    onPressed: controller.loggingIn ? null : controller.onSubmit,
                     style: ButtonStyle(
                       elevation: const MaterialStatePropertyAll(2),
                       backgroundColor: MaterialStateProperty.resolveWith(
                         (s) =>
                             s.contains(MaterialState.hovered) ||
                                 s.contains(MaterialState.pressed)
-                            ? AppColors.brandSecondary
-                            : AppColors.brandPrimary,
+                                ? AppColors.brandSecondary
+                                : AppColors.brandPrimary,
                       ),
                       foregroundColor: const MaterialStatePropertyAll(
                         Colors.white,

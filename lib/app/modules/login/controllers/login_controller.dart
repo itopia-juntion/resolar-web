@@ -11,6 +11,11 @@ class LoginController extends GetxController {
   final email = TextEditingController();
   final username = TextEditingController();
   final password = TextEditingController();
+
+  final usernameFocusNode = FocusNode();
+  final passwordFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
+
   final RxBool _loggingIn = RxBool(false);
   final RxBool _isSignUp = RxBool(false);
 
@@ -34,6 +39,12 @@ class LoginController extends GetxController {
   void onClose() {
     username.dispose();
     password.dispose();
+    email.dispose();
+
+    usernameFocusNode.dispose();
+    passwordFocusNode.dispose();
+    emailFocusNode.dispose();
+
     super.onClose();
   }
 

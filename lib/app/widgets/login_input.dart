@@ -9,14 +9,19 @@ class LoginInput extends StatelessWidget {
   final TextInputType? keyboardType;
   final Iterable<String>? autofillHints;
   final String? Function(String?)? validator;
+  final FocusNode? focusNode;
+  final void Function(String)? onFieldSubmitted;
 
   const LoginInput({
+    super.key,
     required this.controller,
     required this.hint,
     this.obscure = false,
     this.keyboardType,
     this.autofillHints,
     this.validator,
+    this.focusNode,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -28,6 +33,11 @@ class LoginInput extends StatelessWidget {
       autofillHints: autofillHints,
       style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
       validator: validator,
+      focusNode: focusNode,
+      onFieldSubmitted: onFieldSubmitted,
+      textInputAction: onFieldSubmitted != null
+          ? TextInputAction.next
+          : TextInputAction.done,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: const TextStyle(color: AppColors.textSecondary),
