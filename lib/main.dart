@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resolar_web/app/api_client.dart';
 
 import 'app/core/constants/app_colors.dart';
 import 'app/routes/app_pages.dart';
@@ -31,6 +33,14 @@ void main() async {
       displayColor: AppColors.textPrimary,
     ),
   );
+
+  var apiClient = ApiClient();
+  Get.put(apiClient);
+
+  await GetStorage.init('auth_service');
+  var storage = GetStorage('auth_service');
+
+  Get.put(AuthService(storage));
 
   runApp(
     GetMaterialApp(

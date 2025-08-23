@@ -2,17 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:get/get_connect/connect.dart';
+import 'package:get/get.dart';
+import 'package:resolar_web/app/services/auth_service.dart';
 
 class ApiClient extends GetConnect {
-  Future<RequestResult<bool>>? _loginFuture;
-  String? _token;
+  Future<RequestResult<EmptyBody>>? _loginFuture;
+  AuthService get authService => Get.find<AuthService>();
 
   @override
   void onInit() {
     super.onInit();
 
-    httpClient.baseUrl = "http://whereisit/";
+    httpClient.baseUrl = "https://c614105eedfe.ngrok-free.app/api";
     httpClient.timeout = const Duration(seconds: 15);
     httpClient.defaultContentType = 'application/json';
 
@@ -20,8 +21,10 @@ class ApiClient extends GetConnect {
       final path = request.url.path;
       final isAuthPath = path.contains('/auth/');
 
-      if (!isAuthPath && _token != null) {
-        request.headers['Authorization'] = 'Bearer $_token';
+      var token = authService.accessToken;
+
+      if (!isAuthPath && token != null) {
+        request.headers['Authorization'] = 'Bearer $token';
       }
 
       return request;
@@ -31,10 +34,15 @@ class ApiClient extends GetConnect {
       final path = request.url.path;
       if (path.contains('/auth/')) return request;
 
-      await loginAndRefreshToken();
-      if (_token == null || _token!.isEmpty) return request;
+      if (authService.username == null || authService.password == null) {
+        return request;
+      }
+      var token = authService.accessToken;
 
-      request.headers['Authorization'] = 'Bearer $_token';
+      await loginAndRefreshToken(authService.username!, authService.password!);
+      if (token == null || token!.isEmpty) return request;
+
+      request.headers['Authorization'] = 'Bearer $token';
       return request;
     });
 
@@ -62,7 +70,7 @@ class ApiClient extends GetConnect {
         return RequestFail('서버의 응답을 처리하지 못했어요.');
       }
     }
-    return RequestFail('서버가 올바르지 않은 응답을 함 : ${rp.statusCode}');
+    return RequestFail('작업을 완료할 수 없습니다 : ${rp.statusCode}');
   }
 
   Future<RequestResult<T>> _send<T>(
@@ -82,19 +90,22 @@ class ApiClient extends GetConnect {
     }
   }
 
-  Future<RequestResult<bool>> loginAndRefreshToken() {
+  Future<RequestResult<EmptyBody>> loginAndRefreshToken(
+    String username,
+    String password,
+  ) {
     if (_loginFuture != null) {
       return _loginFuture!;
     }
 
-    var future = Future<RequestResult<bool>>(() async {
+    var future = Future<RequestResult<EmptyBody>>(() async {
       return await _send(
         () async => await post(
-          '/auth/login',
-          "Imagine this!",
-        ), // TODO : you know what to do
+          '/auth/login', //흐흐 주소 맞췄다!!
+          _cleanQuery({'username': username, 'password': password}),
+        ),
         map: (rp) {
-          return true; // Maybe?
+          return EmptyBody();
         },
       );
     }).whenComplete(() => _loginFuture = null);
