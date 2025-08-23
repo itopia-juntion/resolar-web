@@ -10,8 +10,9 @@ class AppUtils {
     Get.showSnackbar(
       GetSnackBar(
         duration: const Duration(seconds: 2),
-        backgroundColor: AppColors.brandSecondary,
+        backgroundColor: AppColors.sidebarBg,
         borderRadius: 8,
+        borderColor: AppColors.brandPrimary,
         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         snackPosition: SnackPosition.BOTTOM,
