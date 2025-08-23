@@ -38,4 +38,18 @@ class AuthService extends GetxService {
     ApiClient ac = Get.find<ApiClient>();
     return await ac.loginAndRefreshToken(username, password);
   }
+
+  Future<RequestResult<EmptyBody>> signUp(
+    String username,
+    String password,
+    String email,
+  ) async {
+    await Future.wait([
+      storage.write(_usernameKey, username),
+      storage.write(_passwordKey, password),
+    ]);
+
+    ApiClient ac = Get.find<ApiClient>();
+    return await ac.signUpAndRefreshToken(username, password, email);
+  }
 }

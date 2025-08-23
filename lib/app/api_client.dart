@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -105,6 +106,8 @@ class ApiClient extends GetConnect {
           _cleanQuery({'username': username, 'password': password}),
         ),
         map: (rp) {
+          String? token = json.decode(rp.bodyString!)['accessToken'];
+          authService.updateAccessToken(token ?? '');
           return EmptyBody();
         },
       );
@@ -112,6 +115,28 @@ class ApiClient extends GetConnect {
 
     _loginFuture = future;
     return future;
+  }
+
+  Future<RequestResult<EmptyBody>> signUpAndRefreshToken(
+    String username,
+    String password,
+    String email,
+  ) async {
+    return await _send(
+      () async => await post(
+        '/auth/join',
+        _cleanQuery({
+          'username': username.trim(),
+          'password': password.trim(),
+          'email': email.trim(),
+        }),
+      ),
+      map: (rp) {
+        String? token = json.decode(rp.bodyString!)['accessToken'];
+        authService.updateAccessToken(token ?? '');
+        return EmptyBody();
+      },
+    );
   }
 }
 

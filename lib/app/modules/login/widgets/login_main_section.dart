@@ -24,17 +24,19 @@ class LoginMainSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Title
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(bottom: 8),
                 child: Column(
                   children: [
-                    Text(
-                      'Login',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
+                    Obx(
+                      () => Text(
+                        controller.isSignUp ? 'Sign up' : 'Login',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.textPrimary,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ),
                     SizedBox(height: 6),
@@ -51,10 +53,14 @@ class LoginMainSection extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // Email
+              // ID
               const LoginFieldLabel('ID'),
               const SizedBox(height: 8),
-              LoginInput(controller: controller.username, hint: 'username'),
+              LoginInput(
+                controller: controller.username,
+                hint: 'username',
+                autofillHints: const [AutofillHints.username],
+              ),
               const SizedBox(height: 16),
 
               // Password + forgot
@@ -62,10 +68,16 @@ class LoginMainSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const LoginFieldLabel('Password'),
-                  TextButton(
-                    onPressed: () {},
-                    style: _linkStyle(),
-                    child: const Text('Forgot password?'),
+                  Obx(
+                    () => Visibility(
+                      visible: !controller.isSignUp,
+                      replacement: SizedBox(),
+                      child: TextButton(
+                        onPressed: () {},
+                        style: _linkStyle(),
+                        child: const Text('Forgot password?'),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -79,6 +91,25 @@ class LoginMainSection extends StatelessWidget {
                     ? 'Please enter your password.'
                     : null,
               ),
+              const SizedBox(height: 16),
+
+              // Email
+              Obx(() {
+                if (!controller.isSignUp) return SizedBox();
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const LoginFieldLabel('Email'),
+                    const SizedBox(height: 8),
+                    LoginInput(
+                      controller: controller.email,
+                      hint: 'mymail@mail.com',
+                    ),
+                  ],
+                );
+              }),
               const SizedBox(height: 20),
 
               // Submit
@@ -122,9 +153,11 @@ class LoginMainSection extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : const Text(
-                              'Log In',
-                              style: TextStyle(fontWeight: FontWeight.w700),
+                          : Obx(
+                              () => Text(
+                                controller.isSignUp ? 'Sign Up' : 'Log In',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
                             ),
                     ),
                   ),
@@ -133,19 +166,27 @@ class LoginMainSection extends StatelessWidget {
 
               // Footer
               const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Not a member? ',
-                    style: TextStyle(color: AppColors.textSecondary),
+              Obx(
+                () => Visibility(
+                  visible: !controller.isSignUp,
+                  replacement: SizedBox(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Not a member? ',
+                        style: TextStyle(color: AppColors.textSecondary),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          controller.toggleSignUp();
+                        },
+                        style: _linkStyle(),
+                        child: const Text('Sign up for free'),
+                      ),
+                    ],
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    style: _linkStyle(),
-                    child: const Text('Sign up for free'),
-                  ),
-                ],
+                ),
               ),
             ],
           ),

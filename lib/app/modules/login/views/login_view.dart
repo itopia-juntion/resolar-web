@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:resolar_web/app/modules/login/widgets/login_main_section.dart';
-import 'package:resolar_web/gen/assets.gen.dart';
 
-import '../../../../main.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../widgets/app_banner.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
