@@ -5,6 +5,7 @@ import 'package:resolar_web/app/modules/home/controllers/home_controller.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../widgets/app_banner.dart';
+import '../../../widgets/login_input.dart';
 import '../models/topic_item.dart';
 
 class Sidebar extends StatelessWidget {
@@ -50,7 +51,7 @@ class Sidebar extends StatelessWidget {
 
                     return ListView.builder(
                       itemCount: subjects.length,
-                      itemBuilder: (_, i) => Obx(() {
+                      itemBuilder: (_, i) {
                         Subject sub = subjects[i];
                         return GestureDetector(
                           behavior: HitTestBehavior.translucent,
@@ -64,7 +65,7 @@ class Sidebar extends StatelessWidget {
                             ),
                           ),
                         );
-                      }),
+                      },
                     );
                   }),
                 ),
@@ -75,21 +76,30 @@ class Sidebar extends StatelessWidget {
           // Bottom
           Column(
             children: [
+              LoginInput(
+                controller: controller.newTopicController,
+                hint: 'Stock',
+              ),
+              const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
                 height: 44,
-                child: FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                child: Obx(
+                  () => FilledButton.icon(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ),
-                  onPressed: () {},
-                  icon: const Icon(Icons.add, size: 20),
-                  label: const Text(
-                    'New Topic',
-                    style: TextStyle(fontWeight: FontWeight.w700),
+                    onPressed: controller.isTopicNameValid
+                        ? controller.createNewTopic
+                        : null,
+                    icon: const Icon(Icons.add, size: 20),
+                    label: const Text(
+                      'New Topic',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ),
               ),

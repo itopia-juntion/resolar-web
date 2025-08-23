@@ -136,6 +136,15 @@ class ApiClient extends GetConnect {
       },
     );
   }
+
+  Future<RequestResult<EmptyBody>> createSubject(String name) async {
+    return await _send(
+      () async => await post('/subjects', {'name': name}),
+      map: (rp) {
+        return EmptyBody();
+      },
+    );
+  }
 }
 
 sealed class RequestResult<T> {}
