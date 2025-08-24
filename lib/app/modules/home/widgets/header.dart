@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:resolar_web/app/modules/home/controllers/home_controller.dart';
+import 'package:resolar_web/app/widgets/adaptive_wrap.dart';
 import 'package:resolar_web/app/widgets/app_input.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -12,7 +13,10 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return AdaptiveWrap(
+      /*spacing: 16, // 가로 간격
+      runSpacing: 12, // 줄 바뀔 때 세로 간격
+      crossAxisAlignment: WrapCrossAlignment.center,*/
       children: [
         Obx(
           () => Text(
@@ -20,8 +24,8 @@ class Header extends StatelessWidget {
             style: const TextStyle(fontSize: 34, fontWeight: FontWeight.w800),
           ),
         ),
-        const Expanded(child: SizedBox()),
         SizedBox(
+          // Expanded 대신 Wrap에서는 SizedBox로 폭 제한
           width: 360,
           child: Stack(
             alignment: Alignment.centerLeft,
