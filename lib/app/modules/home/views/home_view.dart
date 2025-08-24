@@ -69,7 +69,7 @@ class _MainArea extends StatelessWidget {
         behavior: const _NoGlow(),
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1100),
               child: Column(
@@ -77,7 +77,35 @@ class _MainArea extends StatelessWidget {
                 children: [
                   Header(),
                   const SizedBox(height: 8),
-                  Expanded(child: Obx(() => LinkList(pages: controller.pages))),
+                  Expanded(
+                    child: Obx(() {
+                      if (controller.isAiSearchMode) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: TextButton.icon(
+                                onPressed: controller.clearAiSearch,
+                                icon: const Icon(Icons.arrow_back, size: 18),
+                                label: const Text('Back to list'),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.white70,
+                                  padding: EdgeInsets.zero,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Expanded(
+                              child: LinkList(pages: controller.aiSearchPages),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return LinkList(pages: controller.pages);
+                      }
+                    }),
+                  ),
                   const SizedBox(height: 24),
                   const Divider(color: AppColors.accent, height: 1),
                   const SizedBox(height: 24),

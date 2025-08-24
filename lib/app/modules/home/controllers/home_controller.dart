@@ -32,6 +32,12 @@ class HomeController extends GetxController {
   final RxBool _isGeneratingPdf = RxBool(false);
   bool get isGeneratingPdf => _isGeneratingPdf.value;
 
+  final RxList<WebPage> _aiSearchPages = RxList();
+  List<WebPage> get aiSearchPages => _aiSearchPages.value;
+
+  final RxBool _isAiSearchMode = RxBool(false);
+  bool get isAiSearchMode => _isAiSearchMode.value;
+
   @override
   void onInit() {
     super.onInit();
@@ -96,6 +102,7 @@ class HomeController extends GetxController {
     _selectedSubject.value = sub;
     searchController.clear();
     _pages.clear();
+    clearAiSearch();
     await _fetchPages(sub.id);
   }
 
@@ -198,7 +205,6 @@ class HomeController extends GetxController {
         return;
       }
 
-      pages.clear();
       askController.clear();
 
       RequestResult reqRet = await Get.find<ApiClient>().searchAi(
@@ -212,11 +218,17 @@ class HomeController extends GetxController {
       }
 
       RequestSuccess<WebPage?> success = reqRet as RequestSuccess<WebPage?>;
-      _pages.clear();
-      if (success.data != null) _pages.add(success.data!);
+      _aiSearchPages.clear();
+      if (success.data != null) _aiSearchPages.add(success.data!);
+      _isAiSearchMode.value = true;
     } finally {
       _isLoading.value = false;
     }
+  }
+
+  void clearAiSearch() {
+    _aiSearchPages.clear();
+    _isAiSearchMode.value = false;
   }
 
   Future<void> generateAndDownloadPdf() async {
