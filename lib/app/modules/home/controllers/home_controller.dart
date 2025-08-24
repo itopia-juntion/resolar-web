@@ -176,16 +176,24 @@ class HomeController extends GetxController {
       final keyword = askController.text.trim();
       final subject = _selectedSubject.value;
 
-      pages.clear();
-      askController.clear();
-
       if (subject == null) {
+        AppUtils.showSnackBar('Select any topic!');
         return;
       }
 
       if (keyword.isEmpty) {
         return;
       }
+
+      if (_pages.isEmpty) {
+        AppUtils.showSnackBar(
+          'You haven’t added any links yet! Please add some links and try again.',
+        );
+        return;
+      }
+
+      pages.clear();
+      askController.clear();
 
       RequestResult reqRet = await Get.find<ApiClient>().searchAi(
         keyword,
