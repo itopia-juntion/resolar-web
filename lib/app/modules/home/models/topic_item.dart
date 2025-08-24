@@ -44,9 +44,9 @@ class TopicItem extends StatelessWidget {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.delete, color: fg, size: 16),
+                icon: Icon(Icons.delete, color: fg.withAlpha(120), size: 16),
                 onPressed: onDelete,
-              )
+              ),
             ],
           ),
         ),
