@@ -194,14 +194,19 @@ class ApiClient extends GetConnect {
     );
   }
 
-  Future<RequestResult<WebPage>> searchAi(String keyword, int subjectId) async {
+  Future<RequestResult<WebPage?>> searchAi(
+    String keyword,
+    int subjectId,
+  ) async {
     return await _send(
       () async => await get(
         '/subjects/search',
         query: {'keyword': keyword, 'subjectId': subjectId.toString()},
       ),
       map: (rp) {
-        var item = json.decode(rp.bodyString!);
+        String body = rp.bodyString!;
+        if (body.contains('없습니다.",')) return null;
+        var item = json.decode(body);
         return WebPage.fromJson(item);
       },
     );
