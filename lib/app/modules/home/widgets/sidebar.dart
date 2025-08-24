@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:resolar_web/app/models/subject.dart';
 import 'package:resolar_web/app/modules/home/controllers/home_controller.dart';
+import 'package:resolar_web/app/widgets/hover_scale.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../widgets/app_banner.dart';
@@ -54,13 +55,15 @@ class Sidebar extends StatelessWidget {
                       itemBuilder: (_, i) {
                         Subject sub = subjects[i];
                         return Obx(
-                          () => TopicItem(
-                            label: sub.name,
-                            onTap: () {
-                              controller.selectSubject(sub);
-                            },
-                            onDelete: () => controller.deleteSubject(sub),
-                            active: controller.selectedSubject == sub,
+                          () => HoverScale(
+                            child: TopicItem(
+                              label: sub.name,
+                              onTap: () {
+                                controller.selectSubject(sub);
+                              },
+                              onDelete: () => controller.deleteSubject(sub),
+                              active: controller.selectedSubject == sub,
+                            ),
                           ),
                         );
                       },
