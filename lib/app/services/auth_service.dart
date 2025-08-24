@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:resolar_web/app/api_client.dart';
+import 'package:resolar_web/app/routes/app_pages.dart';
 
 class AuthService extends GetxService {
   static const String _tokenKey = "access_token";
@@ -24,6 +25,13 @@ class AuthService extends GetxService {
 
   bool isLoggedIn() {
     return _accessToken != null;
+  }
+
+  void logout() {
+    storage.remove(_tokenKey);
+    _accessToken = null;
+
+    Get.offAllNamed(Routes.LOGIN);
   }
 
   Future updateAccessToken(String token) async {

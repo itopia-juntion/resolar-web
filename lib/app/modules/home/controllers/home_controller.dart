@@ -4,6 +4,7 @@ import 'package:resolar_web/app/api_client.dart';
 import 'package:resolar_web/app/core/utils/app_utils.dart';
 import 'package:resolar_web/app/models/subject.dart';
 import 'package:resolar_web/app/models/web_page.dart';
+import 'package:resolar_web/app/services/auth_service.dart';
 import 'package:universal_html/html.dart' as html;
 
 class HomeController extends GetxController {
@@ -96,6 +97,10 @@ class HomeController extends GetxController {
     searchController.clear();
     _pages.clear();
     await _fetchPages(sub.id);
+  }
+
+  void logout() {
+    Get.find<AuthService>().logout();
   }
 
   Future<void> createNewTopic() async {

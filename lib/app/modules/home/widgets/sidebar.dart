@@ -8,6 +8,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../widgets/app_banner.dart';
 import '../../../widgets/login_input.dart';
 import '../models/topic_item.dart';
+import 'action_button.dart';
 
 class Sidebar extends StatelessWidget {
   HomeController get controller => Get.find<HomeController>();
@@ -27,7 +28,19 @@ class Sidebar extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppBanner(),
+                Row(
+                  children: [
+                    AppBanner(),
+                    Expanded(child: SizedBox()),
+                    ActionButton(
+                      icon: Icons.logout,
+                      label: 'logout',
+                      onTap: () {
+                        controller.logout();
+                      },
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 32),
                 Align(
                   alignment: Alignment.centerLeft,
