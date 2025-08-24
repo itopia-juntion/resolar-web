@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../main.dart';
 import '../../../core/constants/app_colors.dart';
@@ -80,7 +81,13 @@ class _MainArea extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Divider(color: AppColors.accent, height: 1),
                   const SizedBox(height: 24),
-                  AskAndActions(),
+                  Obx(() {
+                    var loading = controller.isLoading;
+                    var widget = AskAndActions();
+
+                    if (loading) return Shimmer(child: widget);
+                    return widget;
+                  }),
                 ],
               ),
             ),

@@ -205,7 +205,7 @@ class HomeController extends GetxController {
         return;
       }
 
-      RequestSuccess<WebPage?> success = reqRet as RequestSuccess<WebPage>;
+      RequestSuccess<WebPage?> success = reqRet as RequestSuccess<WebPage?>;
       _pages.clear();
       if (success.data != null) _pages.add(success.data!);
     } finally {
