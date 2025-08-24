@@ -94,6 +94,7 @@ class HomeController extends GetxController {
   Future<void> selectSubject(Subject sub) async {
     _selectedSubject.value = sub;
     searchController.clear();
+    _pages.clear();
     await _fetchPages(sub.id);
   }
 
