@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:resolar_web/app/modules/home/controllers/home_controller.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../core/constants/app_colors.dart';
 import 'action_button.dart';
@@ -13,7 +14,6 @@ class AskAndActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 16,
       children: [
         // Ask AI input + send
         Expanded(
@@ -66,13 +66,24 @@ class AskAndActions extends StatelessWidget {
             ],
           ),
         ),
-
+        const SizedBox(width: 16),
         // Actions
-        ActionButton(
-          icon: Icons.picture_as_pdf_rounded,
-          label: 'Save as PDF',
-          onTap: () {},
-        ),
+        Obx(() {
+          var btn = ActionButton(
+            icon: Icons.picture_as_pdf_rounded,
+            label: 'Save as PDF',
+            onTap: () {
+              if (!controller.isGeneratingPdf) {
+                controller.generateAndDownloadPdf();
+              }
+            },
+          );
+
+          if (controller.isGeneratingPdf) {
+            return Shimmer(child: btn);
+          }
+          return btn;
+        }),
       ],
     );
   }

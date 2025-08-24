@@ -4,6 +4,7 @@ import 'package:resolar_web/app/api_client.dart';
 import 'package:resolar_web/app/core/utils/app_utils.dart';
 import 'package:resolar_web/app/models/subject.dart';
 import 'package:resolar_web/app/models/web_page.dart';
+import 'package:universal_html/html.dart' as html;
 
 class HomeController extends GetxController {
   final searchController = TextEditingController();
@@ -26,6 +27,9 @@ class HomeController extends GetxController {
 
   final RxBool _isLoading = RxBool(false);
   bool get isLoading => _isLoading.value;
+
+  final RxBool _isGeneratingPdf = RxBool(false);
+  bool get isGeneratingPdf => _isGeneratingPdf.value;
 
   @override
   void onInit() {
@@ -198,6 +202,34 @@ class HomeController extends GetxController {
       _pages.add(success.data);
     } finally {
       _isLoading.value = false;
+    }
+  }
+
+  Future<void> generateAndDownloadPdf() async {
+    if (_selectedSubject.value == null) return;
+
+    try {
+      _isGeneratingPdf.value = true;
+      final subject = _selectedSubject.value!;
+
+      final result = await Get.find<ApiClient>().getSubjectSummary(subject.id);
+
+      if (result is RequestSuccess) {
+        final blob = html.Blob([
+          (result as RequestSuccess).data,
+        ], 'application/pdf');
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        final anchor = html.AnchorElement(href: url)
+          ..setAttribute("download", "${subject.name}_summary.pdf")
+          ..click();
+        html.Url.revokeObjectUrl(url);
+      } else if (result is RequestFail) {
+        AppUtils.showSnackBar(result.reason);
+      }
+    } catch (e) {
+      AppUtils.showSnackBar('Failed to generate PDF: $e');
+    } finally {
+      _isGeneratingPdf.value = false;
     }
   }
 }

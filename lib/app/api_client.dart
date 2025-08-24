@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:resolar_web/app/models/subject.dart';
 import 'package:resolar_web/app/models/web_page.dart';
 import 'package:resolar_web/app/services/auth_service.dart';
@@ -125,7 +125,6 @@ class ApiClient extends GetConnect {
     return await _send(
       () async => await get('/subjects'),
       map: (rp) {
-        log(rp.bodyString!);
         List items = json.decode(rp.bodyString!);
         List<Subject> subjects = [];
 
@@ -206,6 +205,42 @@ class ApiClient extends GetConnect {
         return WebPage.fromJson(item);
       },
     );
+  }
+
+  Future<RequestResult<Uint8List>> getSubjectSummary(int subjectId) async {
+    try {
+      final token = authService.accessToken;
+      final uri = Uri.parse(
+        '${httpClient.baseUrl}/subjects/summary/$subjectId',
+      );
+
+      final headers = <String, String>{
+        'ngrok-skip-browser-warning': 'true',
+        'Accept': 'application/octet-stream',
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
+
+      final rp = await http
+          .post(uri, headers: headers, body: jsonEncode({}))
+          .timeout(httpClient.timeout);
+
+      if (rp.statusCode == 200 ||
+          rp.statusCode == 201 ||
+          rp.statusCode == 204) {
+        // rp.bodyBytes is already a Uint8List
+        return RequestSuccess<Uint8List>(rp.bodyBytes);
+      }
+
+      return RequestFail('작업을 완료할 수 없습니다 : ${rp.statusCode}');
+    } on TimeoutException {
+      return RequestFail('요청 시간이 초과되었습니다.');
+    } on SocketException {
+      return RequestFail('네트워크 연결을 확인해 주세요.');
+    } catch (e) {
+      if (kDebugMode) rethrow;
+      return RequestFail('알 수 없는 오류가 발생했어요.');
+    }
   }
 }
 
