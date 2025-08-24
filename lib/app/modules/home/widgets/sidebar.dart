@@ -76,7 +76,7 @@ class Sidebar extends StatelessWidget {
             children: [
               LoginInput(
                 controller: controller.newTopicController,
-                hint: 'Stock',
+                hint: 'Enter your topic',
               ),
               const SizedBox(height: 16),
               SizedBox(
