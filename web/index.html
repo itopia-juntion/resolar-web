@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko-kr">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -17,8 +17,9 @@
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -31,8 +32,53 @@
 
   <title>resolar_web</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Fonts & Tailwind (for loading screen only) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <style type="text/tailwindcss">
+        :root {
+            --brand-primary: #0d7ff2;
+            --brand-secondary: #0a65c2;
+            --background-start: #111827;
+            --background-end: #1f2937;
+            --surface-color: #1f2937;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-background { background-color: var(--background-start); }
+        .pulsate { animation: pulsate 2s ease-in-out infinite; }
+        @keyframes pulsate {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+  </style>
 </head>
-<body>
+<body class="gradient-background text-white antialiased">
+  <!-- Loading screen (will hide after Flutter's first frame) -->
+  <div id="flutter_loading" class="flex flex-col min-h-screen items-center justify-center">
+    <div class="flex flex-col items-center gap-8">
+        <img src="app_logo.webp" width="20%" height="20%">
+      <div class="w-64 bg-[var(--surface-color)] rounded-full h-2.5">
+        <div class="bg-[var(--brand-primary)] h-2.5 rounded-full animate-pulse" style="width: 45%"></div>
+      </div>
+      <p class="text-[var(--text-secondary)] text-lg">Welcome to Resolar</p>
+    </div>
+  </div>
+
+  <!-- Hide loading screen when Flutter is ready -->
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('flutter_loading');
+      if (el) { el.style.display = 'none'; }
+    });
+  </script>
+
+  <!-- Flutter bootstrap -->
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
