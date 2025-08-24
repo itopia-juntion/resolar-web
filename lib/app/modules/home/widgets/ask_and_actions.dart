@@ -71,7 +71,7 @@ class AskAndActions extends StatelessWidget {
         Obx(() {
           var btn = ActionButton(
             icon: Icons.picture_as_pdf_rounded,
-            label: 'Save as PDF',
+            label: 'Get Final Report',
             onTap: () {
               if (!controller.isGeneratingPdf) {
                 controller.generateAndDownloadPdf();
